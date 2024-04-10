@@ -125,6 +125,8 @@ The function get_shuffle is written to generate random shuffled sequence and sho
 ```
 
 ## **CpG Island HMM**
+![image](https://github.com/ibojovic/protein_structure/assets/62520977/4395344f-664e-41dc-9672-bec97f18bc0d)
+
  Training sequence used here is the human chromosome 21 downloaded from the UCSC genome browser( **chr21.fa.gz** file). For the GpC Island annotation refer to the **cpgIslandExt.txt.gz** file.
 
  The script **cpg-hmm.py** takes in input bedfile extracted from the cpgIslandExt.txt and the sequence of the chromosome 21 and calculates the transition and emission probabilities for each state.
