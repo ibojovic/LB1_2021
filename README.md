@@ -27,6 +27,30 @@ To download a PDB structure directly form the command line use the commad wget.
 
 **WARNING**: This code is not safe in presence of Alternate locations in column 17 of the ATOM field.
 
+# **Protein Sequence Alignment Analysis**
+
+## **Analysis of  a multuple sequence alignment to detect conserved sites.**
+
+A unique fasta file containing all the sequences of the proteins downloaded from the UniProt Rest API 
+```bash
+for i in P99999 P00004 P0C0X8 P00091 Q93VA3
+do
+  wget https://www.uniprot.org/uniprot/$i.fasta
+done
+cat P99999.fasta P00004.fasta P0C0X8.fasta P00091.fasta Q93VA3.fasta > cytc_aln.clw
+```
+
+Calculate the multiple sequence alignment: [CLUSTALW](https://www.ebi.ac.uk/Tools/msa/clustalo/), [MUSCLE](https://www.ebi.ac.uk/Tools/msa/muscle/) and [TCOFFEE](https://www.ebi.ac.uk/Tools/msa/tcoffee/).
+
+You should save the output in clustalw format that contains seperated columns representing the identifiers and the relative aligned sequences.
+
+An example of the output: 
+
+Now you should write a python script that analyzes the multiple sequence alignment and calculates for each position the most abundant residue with its frequencyy and the information entropy (S). Where S is
+
+>$S=\sum_{i=0}^{20} -p_ilog(p_i)$
+
+and *p* are the frequecnies of the amino acids.  The program will have a function the parse the alignment file and a function that calculates the profile in each position of the alignment.
 
 
 
