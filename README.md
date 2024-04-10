@@ -1,6 +1,6 @@
 # **Protein Structure Superimposition**
 ## **Script for superimposing two 3D structures.**
-The script *super_pdb.py** should take as an input two PDB structures, the relative chains and their residue intervals. The script includes the following steps:
+The script **super_pdb.py** should take as an input two PDB structures, the relative chains and their residue intervals. The script includes the following steps:
 
 1.   Parsing the PDB file
 2.   Selection of the subset of residues
