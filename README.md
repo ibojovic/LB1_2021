@@ -125,9 +125,23 @@ The function get_shuffle is written to generate random shuffled sequence and sho
 ```
 
 ## **CpG Island HMM**
- Training sequence used here is the human chromosome 21 downloaded from the UCSC genome browser. For the GpC Island annotation refer to the 
+ Training sequence used here is the human chromosome 21 downloaded from the UCSC genome browser( **chr21.fa.gz** file). For the GpC Island annotation refer to the **cpgIslandExt.txt.gz** file.
 
+ The script **cpg-hmm.py** takes in input bedfile extracted from the cpgIslandExt.txt and the sequence of the chromosome 21 and calculates the transition and emission probabilities for each state.
 
+ The first 3 functions of the scripr parse the bedfile and sequfile and generated 2 strings containing the DNA sequence and the CpG state. Only standard nucleic acids are considered for the statistics.
+
+This calculation is performed on the first 50 lines of the cpgIslandExt.txt file and the first 10 million nucleotides of chromosome 21. The pickle library is used to save the resulting HMM transission and probabilities on a file ('../data/cpg-hmm.pik') for future calculations.
+
+```bash
+python cpg-hmm.py ../data/chr21_short.cpg ../data/chr21_short.fa
+```
+
+**forward-hmm.py** script calculates the probability of the sequence giving the model using the forward algorithm.
+
+```bash
+python forward-hmm.py ACGTG ../data/cpg-hmm.pik
+```
 
 
 
