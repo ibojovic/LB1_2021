@@ -1,4 +1,4 @@
-# **Protein Structure Superimposition**
+# **I Protein Structure Superimposition**
 ## **Script for superimposing two 3D structures.**
 The script **super_pdb.py** should take as an input two PDB structures, the relative chains and their residue intervals. The script includes the following steps:
 
@@ -27,7 +27,7 @@ To download a PDB structure directly form the command line use the commad wget.
 
 **WARNING**: This code is not safe in presence of Alternate locations in column 17 of the ATOM field.
 
-# **Protein Sequence Alignment Analysis**
+# **II Protein Sequence Alignment Analysis**
 
 ## **Analysis of  a multuple sequence alignment to detect conserved sites.**
 
@@ -108,8 +108,24 @@ muscle[VERSION] -in cyt5_swiss.fasta -out cyt5_swiss.aln -clw
 ```
 
 
+# **III Probabilistic Models**
 
+Transition probabilities that maximize the probability of the sequence of events
 
+The script from the impot sequence generates the alphabet with the function get_alphabet.
+
+The get_tmatrix funtion starting from position 0 and ending at the position n-1 counts all the transitions bewteen state i and i+1. In the final step of the function the matrix is normalized by line.
+
+The normalization corrseponds to set to 1 the sum of probabilities of trantion from one state.
+
+The function get_shuffle is written to generate random shuffled sequence and show that their probabilities are in general lower than the probability of the input sequence.
+
+```bash
+!python3 markov_model.py CCCFFCRRRCCSSSSFSFRRFFSSFSCSRRS
+```
+
+## **CpG Island HMM**
+ Training sequence used here is the human chromosome 21 downloaded from the UCSC genome browser. For the GpC Island annotation refer to the 
 
 
 
