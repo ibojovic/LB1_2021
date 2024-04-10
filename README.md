@@ -41,16 +41,13 @@ cat P99999.fasta P00004.fasta P0C0X8.fasta P00091.fasta Q93VA3.fasta > cytc_aln.
 ```
 
 Calculate the multiple sequence alignment: [CLUSTALW](https://www.ebi.ac.uk/Tools/msa/clustalo/), [MUSCLE](https://www.ebi.ac.uk/Tools/msa/muscle/) and [TCOFFEE](https://www.ebi.ac.uk/Tools/msa/tcoffee/).
+An example of the output: *cytc_aln.clw*
 
-You should save the output in clustalw format that contains seperated columns representing the identifiers and the relative aligned sequences.
-
-An example of the output: 
-
-Now you should write a python script that analyzes the multiple sequence alignment and calculates for each position the most abundant residue with its frequencyy and the information entropy (S). Where S is
+Script that analyzes the multiple sequence alignment and calculates for each position the most abundant residue with its frequencyy and the information entropy (S). Where S is
 
 >$S=\sum_{i=0}^{20} -p_ilog(p_i)$
 
-and *p* are the frequecnies of the amino acids.  The program will have a function the parse the alignment file and a function that calculates the profile in each position of the alignment.
+and *p* are the frequecnies of the amino acids.  The program has a function the parse the alignment file and a function that calculates the profile in each position of the alignment.
 
 
 
