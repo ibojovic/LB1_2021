@@ -43,11 +43,78 @@ cat P99999.fasta P00004.fasta P0C0X8.fasta P00091.fasta Q93VA3.fasta > cytc_aln.
 Calculate the multiple sequence alignment: [CLUSTALW](https://www.ebi.ac.uk/Tools/msa/clustalo/), [MUSCLE](https://www.ebi.ac.uk/Tools/msa/muscle/) and [TCOFFEE](https://www.ebi.ac.uk/Tools/msa/tcoffee/).
 An example of the output: *cytc_aln.clw*
 
-Script that analyzes the multiple sequence alignment and calculates for each position the most abundant residue with its frequencyy and the information entropy (S). Where S is
+**parse_aln.py** script that analyzes the multiple sequence alignment and calculates for each position the most abundant residue with its frequency and the information entropy (S). Where S is
 
 >$S=\sum_{i=0}^{20} -p_ilog(p_i)$
 
 and *p* are the frequecnies of the amino acids.  The program has a function the parse the alignment file and a function that calculates the profile in each position of the alignment.
+
+`!python3 parse_aln.py ../data/cytc_aln.clw`
+
+The output of the program returns for each position the most frequent amino acid, the entropy, the frequency and the number of gaps.
+
+Sorting this file you can detect the most conserved sites among the five proteins.
+
+## **Results of a Blast search**
+
+blast+ from the ftp website:
+
+*   [Linux x64](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.11.0/ncbi-blast-2.11.0+-x64-linux.tar.gz)
+*   [MacOSX](https://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/2.11.0/ncbi-blast-2.11.0+-x64-macosx.tar.gz)
+
+Untar the file and download swissprot from the UniProt website
+
+```bash
+tar -xzvf ncbi-blast-2.11.0+-x64-[ARCH].tar.gz # Where [ARCH] is linux or macosx
+wget ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
+```
+
+Unzip the uniprot_sprot.fasta.gz file and format the database using makeblastdb
+```bash
+gunzip uniprot_sprot.fasta.gz
+ncbi-blast-2.11.0+/bin/makeblastdb -in uniprot_sprot.fasta -input_type fasta -dbtype prot
+```
+Run the blast search on the Cytochrome C from Arabidopsis (Q93VA3) selecting sequences with E-value < 0.001.
+
+`ncbi-blast-2.11.0+/bin/blastp -query Q93VA3.fasta -db uniprot_sprot.fasta -evalue 0.001 -out Q93VA3.blast -outfmt 7`
+
+Parsing the output file to get the list of identifieer of the possible homolog proteins
+```bash
+# Fileter the blast output checking the e-value threshold ($11<=1e-2)
+grep -v "^#" Q93VA3.blast |awk '{split($2,a,"|"); if ($11<=1e-3) print a[2]}' >Q93VA3.homolog
+
+# This command do not filter the output of blast
+grep -v "^#" Q93VA3.blast |cut -f 2 |cut -d "|" -f 2
+```
+Download the sequences of the homolog excluding the first element in the list (the query sequence (Q93VA3) previosly downloaded) Build a unique file containing all the sequence inluding Q93VA3
+```bash
+for i in `cat Q93VA3.homolog |tail -n +2`
+do
+   wget https://www.uniprot.org/uniprot/$i.fasta
+done
+
+for i in `cat Q93VA3.homolog`
+do
+   cat $i.fasta
+done > cyt5_swiss.fasta
+```
+
+```bash
+muscle[VERSION] -in cyt5_swiss.fasta -out cyt5_swiss.aln -clw 
+```
+
+```bash
+!python3 parse_aln.py ../data/cyt5_swiss.aln P99999 |awk '{if ($3==1 && $5==0) print $0}'
+```
+
+
+
+
+
+
+
+
+
 
 
 
